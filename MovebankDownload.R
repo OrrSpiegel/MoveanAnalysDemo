@@ -76,7 +76,7 @@ range(n.locs(MoveStackData))
 
 #timelag check?
 MoveStackData$timeLag <- unlist(lapply(timeLag(MoveStackData, units="mins"),  c, NA))
-mean(MoveStackData$timeLag,na.rm=T);range(MoveStackData$timeLag,na.rm=T)
+median(MoveStackData$timeLag,na.rm=T);range(MoveStackData$timeLag,na.rm=T)
 
 
 #getDuplicatedTimestamps(MoveStackData)
@@ -108,19 +108,25 @@ print(Map);rm(Map)#
 #for saving time let us choose only 3 tags:
 #for namibia data set ChosenIndividuals <- MoveStackData[[c('X1','X9','X12')]]
 ChosenIndividuals <- MoveStackData[[c('X1','X2','X3','X4','X6','X7')]]
+#ChosenIndividuals <- MoveStackData[[c('X3','X4','X6','X7')]]
+
 ChosenIndividuals@idData[c('individual_id','local_identifier','taxon_canonical_name','sex')]#interesting metadata
-#ChosenIndividuals
+#ChosenIndividuals- making them all in one year
+ChosenIndividuals$timestamp=  
+as.POSIXct(strftime(as.character(ChosenIndividuals$timestamp),format="%m-%d %H:%M:%S"), format="%m-%d %H:%M:%S",tz='UTC')
+
+
 
 #an update map
-mapObj <- get_map(bbox(extent(min(ChosenIndividuals$location_long), 
+mapObj2 <- get_map(bbox(extent(min(ChosenIndividuals$location_long), 
                               max(ChosenIndividuals$location_long), 
                               min(ChosenIndividuals$location_lat), 
                               max(ChosenIndividuals$location_lat) )*1.1), source="google", zoom=6)
-Map=ggmap(mapObj)+
+Map2=ggmap(mapObj2)+
       geom_path(data=as.data.frame(ChosenIndividuals), #read the data as data.frame.
                                 aes(x=location_long, y=location_lat,colour = trackId), size=1,show.legend = T) +
       theme(legend.text= element_text(size=14))+ggtitle('just selected tags, colors by ID');
-print(Map);rm(Map)#
+print(Map2);rm(Map2)#
 
 
 
