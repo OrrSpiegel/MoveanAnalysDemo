@@ -145,6 +145,15 @@ MapType = "terrain"
 frames <- frames_spatial(m=move_data, #path_colours = c("red", "green", "blue"),
                          map_service = MapService, map_type = MapType, alpha = 0.5)
 
+### create monthly labels
+## the default function 'add_labels' is not temporally dynamic!
+monthlabel<-month.name[month(unique(move_data@data$time))]
+
+for (f in 1: length(frames)){
+  frames[[f]]$labels$title <- sprintf("MY BIRDS in %s",monthlabel[f])
+}
+
+
 # animate your frames
 #animate_frames(frames, out_file = paste('Vultures',MapService,MapType,".gif",sep='_'), overwrite = T)#"Warning: The number of frames exceeds 800 and the GIF format is used. This format may not be suitable for animations with a high number of frames, since it causes large file sizes. Consider using a video file format instead."
 animate_frames(frames, out_file = paste('Vultures',MapService,MapType,".mp4",sep='_'), overwrite = T)
