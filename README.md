@@ -9,3 +9,4 @@ If you ran into difficulties or find errors please shoote me an email at orrspie
 
 First update Sep17 2019
 .... update Oct1 2019
+Oct 6th 2019 Thanks Steffen Oppel from RSPB for adding monthly changing lables! now incorporated into the code
